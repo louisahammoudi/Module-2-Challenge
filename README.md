@@ -135,6 +135,67 @@ End Sub
 # 3a) Initialize variables for starting price and ending price
 Dim startingPrice As Double
 Dim endingPrice As Double
+# 3b) Activate data worksheet
+Worksheets(yearValue).Activate
+# 3c) Get the number of rows to loop over
+RowCount = Cells(Rows.Count, "A").End(xlUp).Row
+# 4) Loop through tickers
+For i = 0 To 11
+ticker = tickers(i)
+TotalVolume = 0
+Worksheets(yearValue).Activate
+# 5) loop through rows in the data
+
+For j = 2 To RowCount
+
+# 5a) Get total volume for current ticker
+
+If Cells(j, 2).Value = ticker Then
+
+    'increase totalVolume by the value in the current row
+    TotalVolume = TotalVolume + Cells(j, 8).Value
+End If
+
+ # 5b) get starting price for current ticker
+
+If Cells(j - 1, 2).Value <> ticker And Cells(j, 2).Value = ticker Then
+    'set starting price
+    startingPrice = Cells(j, 6).Value
+
+End If
+
+ # 5c) get ending price for current ticker
+    
+    If Cells(j + 1, 2).Value <> ticker And Cells(j, 2).Value = ticker Then
+    'set ending price
+    endingPrice = Cells(j, 6).Value
+
+End If
+
+Next j
+# 6) Output data for current ticker
+
+Worksheets("All Stocks Analysis").Activate
+Cells(4 + i, 1).Value = ticker
+Cells(4 + i, 2).Value = TotalVolume
+Cells(4 + i, 3).Value = endingPrice / startingPrice - 1
+Next i
+
+
+# Elapsed Time to Run for each year (2017 & 2018)
+ 2018
+
+![image](https://user-images.githubusercontent.com/93894919/145730080-881ed672-2801-4595-bf71-723b407e2605.png)
+2017
+![image](https://user-images.githubusercontent.com/93894919/145730127-a95d6b5a-f2bd-4e36-8693-7a0374be6f17.png)
+
+# Summary 
+
+Refactoring the code in small steps we will make us understad the code better and makinge tiny changes in your program will make your code better and leaves the application in a working state , also we can see easily the logical errors .
+and VBA interpretation (Excel) of code can reveal patterns that are not easy to see in the source
+there are some disadvantages of refactoring the code for exemple in the long procedure may contain the same line of the code in diffrenet locations ,you can change the logic to eliminate the duplicate lines.also Refactoring process can affect the testing outcomes.
+How do these pros and cons apply to refactoring the original VBA script?
+for my opinion A clean and well-organized code is always easy to change, easy to understand, and easy to maintain. You can avoid facing difficulty later if you pay attention to the code refactoring process earlier.
 
 
 
